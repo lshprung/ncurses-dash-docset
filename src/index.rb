@@ -9,10 +9,10 @@ INSERT_SQL = %Q[
   INSERT INTO searchIndex(name, type, path) VALUES ('%s','%s','%s');
 ]
 
-PATTERN = %r[<title>(.*)\(automake\)(.*)</title>]
+PATTERN = %r[<title>(.*)\(Autoconf\)(.*)</title>]
 
 def quote(s)
-  s.gsub(/&amp;/, '&').gsub(/'/, "\\'")
+  s.gsub(/&amp;/, '&').gsub(/'/, "\\'").gsub(/&lt;/, '<')
 end
 
 ARGV.each do |arg|
