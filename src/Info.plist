@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>gnuautoconf</string>
+	<string>ncurses</string>
 	<key>CFBundleName</key>
-	<string>GNU Autoconf</string>
+	<string>ncurses</string>
 	<key>DocSetPlatformFamily</key>
-	<string>autoconf</string>
+	<string>ncurses</string>
 	<key>isDashDocset</key>
 	<true/>
 </dict>

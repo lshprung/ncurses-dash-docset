@@ -7,7 +7,7 @@ DOCUMENTS_DIR = $(RESOURCES_DIR)/Documents
 
 INFO_PLIST_FILE = $(CONTENTS_DIR)/Info.plist
 INDEX_FILE      = $(RESOURCES_DIR)/docSet.dsidx
-ICON_FILE       = $(DOCSET_DIR)/icon.png
+#ICON_FILE       = $(DOCSET_DIR)/icon.png
 ARCHIVE_FILE    = $(DOCSET_NAME).tgz
 
 MANUAL_URL  = https://invisible-island.net/archives/ncurses/ncurses.tar.gz
@@ -16,7 +16,7 @@ MANUAL_SRC = tmp/ncurses-*
 MANUAL_PATH = ncurses-*/doc/html
 MANUAL_FILE = $(MANUAL_SRC)/doc/html
 
-DOCSET = $(INFO_PLIST_FILE) $(INDEX_FILE) $(ICON_FILE)
+DOCSET = $(INFO_PLIST_FILE) $(INDEX_FILE)
 
 all: $(DOCSET)
 
@@ -55,7 +55,7 @@ $(INFO_PLIST_FILE): src/Info.plist $(CONTENTS_DIR)
 
 $(INDEX_FILE): src/index.sh $(DOCUMENTS_DIR)
 	rm -f $@
-	src/index.sh $@ $(DOCUMENTS_DIR)/*.html
+	src/index.sh $@ $(DOCUMENTS_DIR)/*
 
-$(ICON_FILE): src/icon.png $(DOCSET_DIR)
-	cp src/icon.png $@
+#$(ICON_FILE): src/icon.png $(DOCSET_DIR)
+#	cp src/icon.png $@
