@@ -1,4 +1,4 @@
-DOCSET_NAME = GNU_Autoconf
+DOCSET_NAME = ncurses
 
 DOCSET_DIR    = $(DOCSET_NAME).docset
 CONTENTS_DIR  = $(DOCSET_DIR)/Contents
@@ -10,8 +10,11 @@ INDEX_FILE      = $(RESOURCES_DIR)/docSet.dsidx
 ICON_FILE       = $(DOCSET_DIR)/icon.png
 ARCHIVE_FILE    = $(DOCSET_NAME).tgz
 
-MANUAL_URL  = https://www.gnu.org/savannah-checkouts/gnu/autoconf/manual/autoconf-2.71/autoconf.html_node.tar.gz
-MANUAL_FILE = tmp/autoconf.html_node.tar.gz
+MANUAL_URL  = https://invisible-island.net/archives/ncurses/ncurses.tar.gz
+MANUAL_ARCHIVE = tmp/ncurses.tar.gz
+MANUAL_SRC = tmp/ncurses-*
+MANUAL_PATH = ncurses-*/doc/html
+MANUAL_FILE = $(MANUAL_SRC)/doc/html
 
 DOCSET = $(INFO_PLIST_FILE) $(INDEX_FILE) $(ICON_FILE)
 
@@ -28,8 +31,11 @@ tmp:
 $(ARCHIVE_FILE): $(DOCSET)
 	tar --exclude='.DS_Store' -czf $@ $(DOCSET_DIR)
 
-$(MANUAL_FILE): tmp
+$(MANUAL_ARCHIVE): tmp
 	curl -o $@ $(MANUAL_URL)
+
+$(MANUAL_FILE): $(MANUAL_ARCHIVE)
+	tar --wildcards -x -z -f $(MANUAL_ARCHIVE) -C tmp $(MANUAL_PATH)
 
 $(DOCSET_DIR):
 	mkdir -p $@
@@ -42,7 +48,7 @@ $(RESOURCES_DIR): $(CONTENTS_DIR)
 
 $(DOCUMENTS_DIR): $(RESOURCES_DIR) $(MANUAL_FILE)
 	mkdir -p $@
-	tar -x -z -f $(MANUAL_FILE) -C $@
+	cp -r $(MANUAL_FILE)/* $@
 
 $(INFO_PLIST_FILE): src/Info.plist $(CONTENTS_DIR)
 	cp src/Info.plist $@
@@ -50,7 +56,6 @@ $(INFO_PLIST_FILE): src/Info.plist $(CONTENTS_DIR)
 $(INDEX_FILE): src/index.sh $(DOCUMENTS_DIR)
 	rm -f $@
 	src/index.sh $@ $(DOCUMENTS_DIR)/*.html
-	#ruby src/index.rb $(DOCUMENTS_DIR)/*.html | sqlite3 $@
 
 $(ICON_FILE): src/icon.png $(DOCSET_DIR)
 	cp src/icon.png $@
