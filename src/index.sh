@@ -16,6 +16,8 @@ get_title() {
 		sed 's/(Autoconf)//g' | \
 		#Remove trailing space
 		sed 's/[ ]*$//g' | \
+		#Remove trailing man categories
+		sed 's/[0-9][mx]\?$//g' | \
 		#Replace '&amp' with '&'
 		sed 's/&amp/&/g' | \
 		# ReplACE '&ndash;' with '-'
@@ -26,16 +28,16 @@ get_title() {
 
 get_type() {
 	FILE="$1"
-	PATTERN="The node you are looking for is at.*Limitations-of-.*\.html;Builtin
-	The node you are looking for is at;Macro"
+	CATEGORY="$(echo "$FILE" | grep -Eo "\.[0-9].?\.html$")"
 
-	#echo "$PATTERN" | while read -r line; do
-	#	#echo "$line"
-	#	if grep -Eq "$(echo "$line" | cut -d ';' -f 1)" "$FILE"; then
-	#		echo "$line" | cut -d ';' -f 2
-	#		break
-	#	fi
-	#done
+	if [ -n "$CATEGORY" ]; then
+		case "$CATEGORY" in
+			.1*) echo "Command"  ;;
+			.2*) echo "Service"  ;;
+			.3*) echo "Function" ;;
+			*)  echo "Object"   ;;
+		esac
+	fi
 }
 
 insert() {
@@ -46,27 +48,39 @@ insert() {
 	sqlite3 "$DB_PATH" "INSERT INTO searchIndex(name, type, path) VALUES (\"$NAME\",\"$TYPE\",\"$PAGE_PATH\");"
 }
 
+skip_check() {
+	NAME="$1"
+
+	case "$NAME" in
+		[A-Z])               return 1 ;;
+		"Source Browser")    return 1 ;;
+		terminal_interface*) return 1 ;;
+	esac
+}
+
 # Get title and insert into table for each html file
 main() {
 	while [ -n "$1" ]; do
 		unset PAGE_NAME
 		unset PAGE_TYPE
 
-		echo "FILE: $1"
+		#echo "FILE: $1"
 		# Recurse into subdirectories
 		if [ -d "$1" ]; then
 			main "$1"/*
 		else
 			PAGE_NAME="$(get_title "$1")"
-			if [ -n "$PAGE_NAME" ]; then
-				PAGE_TYPE="$(get_type "$1")"
-				#get_type "$1"
-				if [ -z "$PAGE_TYPE" ]; then
-					PAGE_TYPE="Guide"
+			if skip_check "$PAGE_NAME"; then
+				if [ -n "$PAGE_NAME" ]; then
+					PAGE_TYPE="$(get_type "$1")"
+					#get_type "$1"
+					if [ -z "$PAGE_TYPE" ]; then
+						PAGE_TYPE="Guide"
+					fi
+					#echo "$PAGE_NAME"
+					#echo "$PAGE_TYPE"
+					insert "$PAGE_NAME" "$PAGE_TYPE" "$(echo "$1" | sed 's/^ncurses.docset\/Contents\/Resources\/Documents\///')"
 				fi
-				echo "$PAGE_NAME"
-				echo "$PAGE_TYPE"
-				insert "$PAGE_NAME" "$PAGE_TYPE" "$(echo "$1" | sed 's/^ncurses.docset\/Contents\/Resources\/Documents\///')"
 			fi
 		fi
 
