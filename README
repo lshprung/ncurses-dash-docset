@@ -1,11 +1,11 @@
-Here is a script and a Makefile for generating a GNU Autoconf docset for Dash. The script is loosely based on benzado's script for GNU Make https://github.com/benzado/gnu-make-dash-docset.
+Here is a script and a Makefile for generating an ncurses docset for Dash. The script is loosely based on benzado's script for GNU Make https://github.com/benzado/gnu-make-dash-docset.
 
-- GNU Autoconf: https://www.gnu.org/software/autoconf/
+- ncurses: https://invisible-island.net/ncurses/
 - Dash: https://kapeli.com/dash
 
-To generate a docset from the latest edition of the GNU Autoconf Manual, simply
+To generate a docset from the latest edition of ncurses, simply
 execute `make` from the same directory as this README file. The latest edition
-will be downloaded from www.gnu.org and packaged appropriately.
+will be downloaded from www.invisible-island.net and packaged appropriately.
 
 Requirements:
 
