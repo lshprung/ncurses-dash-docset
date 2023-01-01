@@ -7,6 +7,8 @@ To generate a docset from the latest edition of ncurses, simply
 execute `make` from the same directory as this README file. The latest edition
 will be downloaded from www.invisible-island.net and packaged appropriately.
 
+A specific version can also be downloaded and packaged by running `make VERSION=...`.
+
 Requirements:
 
 - any POSIX-compliant shell

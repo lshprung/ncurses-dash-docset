@@ -10,7 +10,12 @@ INDEX_FILE      = $(RESOURCES_DIR)/docSet.dsidx
 #ICON_FILE       = $(DOCSET_DIR)/icon.png
 ARCHIVE_FILE    = $(DOCSET_NAME).tgz
 
+ifdef VERSION
+MANUAL_URL  = https://invisible-island.net/archives/ncurses/ncurses-$(VERSION).tar.gz
+else
 MANUAL_URL  = https://invisible-island.net/archives/ncurses/ncurses.tar.gz
+endif
+
 MANUAL_ARCHIVE = tmp/ncurses.tar.gz
 MANUAL_SRC = tmp/ncurses-*
 MANUAL_PATH = ncurses-*/doc/html
