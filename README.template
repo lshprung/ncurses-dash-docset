@@ -1,0 +1,17 @@
+Here is a script and a Makefile for generating a ncurses docset for Dash. The script is based on the dash-docset-generation-template
+
+- ncurses: https://invisible-island.net/ncurses/
+- Dash: https://kapeli.com/dash
+- dash-docset-generation-template: https://github.com/lshprung/dash-docset-generation-template
+
+To generate a docset from the latest edition of ncurses, simply
+execute `make` from the same directory as this README file. The latest edition
+will be downloaded from www.invisible-island.net and packaged appropriately.
+
+Requirements:
+
+- any POSIX-compliant shell
+- curl    - https://curl.se/
+- make    - https://www.gnu.org/software/make/
+- pup     - https://github.com/ericchiang/pup
+- sqlite3 - https://www.sqlite.org/index.html

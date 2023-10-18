@@ -21,7 +21,29 @@ MANUAL_SRC = tmp/ncurses-*
 MANUAL_PATH = ncurses-*/doc/html
 MANUAL_FILE = $(MANUAL_SRC)/doc/html
 
+ERROR_DOCSET_NAME = $(error DOCSET_NAME is unset)
+WARNING_MANUAL_URL = $(warning MANUAL_URL is unset)
+ERROR_MANUAL_FILE = $(error MANUAL_FILE is unset)
+.phony: err warn
+
+ifndef DOCSET_NAME
+err: ; $(ERROR_DOCSET_NAME)
+endif
+
+ifndef MANUAL_FILE
+err: ; $(ERROR_MANUAL_FILE)
+endif
+
+ifndef MANUAL_URL
+warn: 
+	$(WARNING_MANUAL_URL)
+	$(MAKE) all
+endif
+
 DOCSET = $(INFO_PLIST_FILE) $(INDEX_FILE)
+ifdef SRC_ICON
+DOCSET += $(ICON_FILE)
+endif
 
 all: $(DOCSET)
 
@@ -58,9 +80,10 @@ $(DOCUMENTS_DIR): $(RESOURCES_DIR) $(MANUAL_FILE)
 $(INFO_PLIST_FILE): src/Info.plist $(CONTENTS_DIR)
 	cp src/Info.plist $@
 
-$(INDEX_FILE): src/index.sh $(DOCUMENTS_DIR)
+$(INDEX_FILE): src/index_pages.sh src/index_terms.sh $(DOCUMENTS_DIR)
 	rm -f $@
-	src/index.sh $@ $(DOCUMENTS_DIR)/*
+	src/index_pages.sh $@ $(shell find $(DOCUMENTS_DIR)/ -iname *.html)
+	src/index_terms.sh $@ $(DOCUMENTS_DIR)/man/ncurses.3x.html
 
 #$(ICON_FILE): src/icon.png $(DOCSET_DIR)
-#	cp src/icon.png $@
+#	cp $(SRC_ICON) $@
