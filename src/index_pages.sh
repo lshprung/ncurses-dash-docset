@@ -16,7 +16,7 @@ get_title() {
 	pup -p -f "$FILE" 'title text{}' | \
 		tr -d \\n | \
 		#Remove trailing man categories
-		sed 's/ [0-9][mx]\?$//g' | \
+		sed 's/ [0-9][mx]\?.*$//g' | \
 		sed 's/\"/\"\"/g'
 }
 
