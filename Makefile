@@ -10,6 +10,8 @@ INDEX_FILE      = $(RESOURCES_DIR)/docSet.dsidx
 #ICON_FILE       = $(DOCSET_DIR)/icon.png
 ARCHIVE_FILE    = $(DOCSET_NAME).tgz
 
+#VERSION=
+
 ifdef VERSION
 MANUAL_URL  = https://invisible-island.net/archives/ncurses/ncurses-$(VERSION).tar.gz
 else
