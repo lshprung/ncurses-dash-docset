@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
 # shellcheck source=../../../scripts/create_table.sh
-. "$(dirname "$0")"../../../scripts/create_table.sh
+. "$(dirname "$0")"/../../../scripts/create_table.sh
 # shellcheck source=../../../scripts/insert.sh
-. "$(dirname "$0")"../../../scripts/insert.sh
+. "$(dirname "$0")"/../../../scripts/insert.sh
 # shellcheck source=./lib/get_type
 . "$(dirname "$0")"/lib/get_type
 
