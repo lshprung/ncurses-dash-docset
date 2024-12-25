@@ -26,7 +26,7 @@ $(DOCUMENTS_DIR): $(RESOURCES_DIR) $(MANUAL_FILE)
 	mkdir -p $@
 	cp -r $(MANUAL_FILE)/* $@
 
-$(INDEX_FILE): $(SOURCE_DIR)/src/index-pages.sh $(SOURCE_DIR)/src/index-terms.sh $(DOCUMENTS_DIR)
+$(INDEX_FILE): $(SOURCE_DIR)/src/index_pages.py $(SOURCE_DIR)/src/index_terms.py $(DOCUMENTS_DIR)
 	rm -f $@
-	$(SOURCE_DIR)/src/index-pages.sh $@ $(shell find $(DOCUMENTS_DIR)/ -iname *.html)
-	$(SOURCE_DIR)/src/index-terms.sh $@ $(DOCUMENTS_DIR)/man/ncurses.3x.html
+	$(SOURCE_DIR)/src/index_pages.py $@ $(shell find $(DOCUMENTS_DIR)/ -iname *.html)
+	$(SOURCE_DIR)/src/index_terms.py $@ $(DOCUMENTS_DIR)/man/ncurses.3x.html
